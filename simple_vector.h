@@ -82,40 +82,29 @@ public:
         // Напишите тело самостоятельно
     }
 
-    // Возвращает итератор на начало массива
-    // Для пустого массива может быть равен (или не равен) nullptr
     Iterator begin() noexcept {
-        return items_.Get();
+        return size_ == 0 ? nullptr : items_.Get();
     }
 
-    // Возвращает итератор на элемент, следующий за последним
-    // Для пустого массива может быть равен (или не равен) nullptr
     Iterator end() noexcept {
-        // Напишите тело самостоятельно
+        return size_ == 0 ? nullptr : items_.Get()+size_;
+
     }
 
-    // Возвращает константный итератор на начало массива
-    // Для пустого массива может быть равен (или не равен) nullptr
     ConstIterator begin() const noexcept {
         return items_.Get();
     }
 
-    // Возвращает итератор на элемент, следующий за последним
-    // Для пустого массива может быть равен (или не равен) nullptr
     ConstIterator end() const noexcept {
-        // Напишите тело самостоятельно
+        return size_ == 0 ? nullptr : items_.Get()+size_;
     }
 
-    // Возвращает константный итератор на начало массива
-    // Для пустого массива может быть равен (или не равен) nullptr
     ConstIterator cbegin() const noexcept {
-        return items_.Get();
+        return size_ == 0 ? nullptr : items_.Get();
     }
 
-    // Возвращает итератор на элемент, следующий за последним
-    // Для пустого массива может быть равен (или не равен) nullptr
     ConstIterator cend() const noexcept {
-        return items_.Get();
+        return size_ == 0 ? nullptr : items_.Get()+size_;
     }
 private:
     ArrayPtr<Type> items_;
