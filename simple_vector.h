@@ -82,11 +82,7 @@ public:
     // При увеличении размера новые элементы получают значение по умолчанию для типа Type
     void Resize(size_t new_size) {
         if(new_size < capacity_){
-            capacity_=new_size;
-            if(size_ > new_size){
                 size_ = new_size;
-            }
-
         }else{
         ArrayPtr<Type> new_items(new_size);
         fill(new_items.Get(),new_items.Get()+new_size,Type{});
@@ -94,7 +90,7 @@ public:
         items_.swap(new_items);
         capacity_=new_size;
         size_=new_size;
-        //new_items.Release();
+        //delete[] new_items.Get();
         }
     }
 
