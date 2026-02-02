@@ -16,6 +16,7 @@ public:
 
     // Создаёт вектор из size элементов, инициализированных значением по умолчанию
     explicit SimpleVector(size_t size):items_(size),size_(size),capacity_(size) {
+        fill(begin(),end(),Type{});
 
     }
 
@@ -81,16 +82,19 @@ public:
     // Изменяет размер массива.
     // При увеличении размера новые элементы получают значение по умолчанию для типа Type
     void Resize(size_t new_size) {
-        if(new_size < capacity_){
+        if(new_size==size_){
+            return;
+        }
+        if(new_size < size_){
                 size_ = new_size;
         }else{
-        ArrayPtr<Type> new_items(new_size);
+        ArrayPtr<Type> new_items(new_size);        
         fill(new_items.Get(),new_items.Get()+new_size,Type{});
         copy(begin(),begin()+size_,new_items.Get());
         items_.swap(new_items);
-        capacity_=new_size;
+        capacity_=max(new_size,capacity_*2);
         size_=new_size;
-        //delete[] new_items.Get();
+
         }
     }
 

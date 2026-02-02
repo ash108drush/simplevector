@@ -91,12 +91,18 @@ inline void Test1() {
     {
         const size_t old_size = 3;
         SimpleVector<int> v(3);
+
         v.Resize(old_size + 5);
+
         v[3] = 42;
         v.Resize(old_size);
+
         v.Resize(old_size + 2);
-        std::cout << v[3] << endl;
-        //assert(v[3] == 0);
+     //   for(auto e:v){
+      //      std::cout << e << endl;
+       // }
+        //std::cout << v[3] << endl;
+        assert(v[3] == 0);
     }
 
     // Итерирование по SimpleVector
