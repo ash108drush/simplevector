@@ -15,24 +15,17 @@ public:
     SimpleVector() noexcept = default;
 
     // Создаёт вектор из size элементов, инициализированных значением по умолчанию
-    explicit SimpleVector(size_t size) {
-        items_=ArrayPtr<Type>(size);
-        size_=size;
-        capacity_=size;
+    explicit SimpleVector(size_t size):items_(size),size_(size),capacity_(size) {
+
     }
 
     // Создаёт вектор из size элементов, инициализированных значением value
-    SimpleVector(size_t size, const Type& value) {
-        items_=ArrayPtr<Type>(size);
-        size_=size;
-        capacity_=size;
+    SimpleVector(size_t size, const Type& value):items_(size), size_(size),capacity_(size){
         fill(begin(),begin()+size,value);
     }
 
     // Создаёт вектор из std::initializer_list
-    SimpleVector(std::initializer_list<Type> init) {
-        // Напишите тело конструктора самостоятельно
-        items_=ArrayPtr<Type>(init.size());
+    SimpleVector(std::initializer_list<Type> init){
         copy(init.begin(),init.end(),begin());
     }
 
@@ -92,9 +85,10 @@ public:
             }
 
         }else{
-        ArrayPtr<Type> copy(items_);
-        this(new_size);
-        items_.swap(copy);
+        ArrayPtr<Type> new_items(new_size);
+        copy(begin(),begin()+size_,new_items.Get());
+        items_.swap(new_items);
+        new_items.Release();
         }
     }
 
