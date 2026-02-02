@@ -25,8 +25,11 @@ public:
     }
 
     // Создаёт вектор из std::initializer_list
-    SimpleVector(std::initializer_list<Type> init){
-        copy(init.begin(),init.end(),begin());
+    SimpleVector(std::initializer_list<Type> init):items_(init.size()),size_(init.size()),capacity_(init.size()){
+        if(init.size() >0){
+             copy(init.begin(),init.end(),begin());
+        }
+
     }
 
     size_t GetSize() const noexcept {
@@ -86,9 +89,12 @@ public:
 
         }else{
         ArrayPtr<Type> new_items(new_size);
+        fill(new_items.Get(),new_items.Get()+new_size,Type{});
         copy(begin(),begin()+size_,new_items.Get());
         items_.swap(new_items);
-        new_items.Release();
+        capacity_=new_size;
+        size_=new_size;
+        //new_items.Release();
         }
     }
 
