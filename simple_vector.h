@@ -2,6 +2,7 @@
 
 #include <cassert>
 #include <initializer_list>
+#include <stdexcept>
 #include <algorithm>
 #include "array_ptr.h"
 using namespace std;
@@ -25,44 +26,47 @@ public:
         items_=ArrayPtr<Type>(size);
         size_=size;
         capacity_=size;
+        fill(begin(),begin()+size,value);
     }
 
     // Создаёт вектор из std::initializer_list
     SimpleVector(std::initializer_list<Type> init) {
         // Напишите тело конструктора самостоятельно
+        items_=ArrayPtr<Type>(init.size());
+        copy(init.begin(),init.end(),begin());
     }
 
-    // Возвращает количество элементов в массиве
     size_t GetSize() const noexcept {
-        // Напишите тело самостоятельно
-        return 0;
+        return size_;
     }
 
     // Возвращает вместимость массива
     size_t GetCapacity() const noexcept {
-        // Напишите тело самостоятельно
-        return 0;
+        return capacity_;
     }
 
     // Сообщает, пустой ли массив
     bool IsEmpty() const noexcept {
-        return true;
+        return (size_==0);
     }
 
     // Возвращает ссылку на элемент с индексом index
     Type& operator[](size_t index) noexcept {
-        // Напишите тело самостоятельно
+        return items_[index];
     }
 
     // Возвращает константную ссылку на элемент с индексом index
     const Type& operator[](size_t index) const noexcept {
-        // Напишите тело самостоятельно
+        return items_[index];
     }
 
     // Возвращает константную ссылку на элемент с индексом index
     // Выбрасывает исключение std::out_of_range, если index >= size
     Type& At(size_t index) {
-        // Напишите тело самостоятельно
+        if(index >= size_){
+            throw std::out_of_range("index out of range");
+        }
+        return items_[index];
     }
 
     // Возвращает константную ссылку на элемент с индексом index
