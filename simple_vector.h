@@ -72,18 +72,30 @@ public:
     // Возвращает константную ссылку на элемент с индексом index
     // Выбрасывает исключение std::out_of_range, если index >= size
     const Type& At(size_t index) const {
-        // Напишите тело самостоятельно
+        if(index >= size_){
+            throw std::out_of_range("index out of range");
+        }
+        return items_[index];
     }
 
     // Обнуляет размер массива, не изменяя его вместимость
     void Clear() noexcept {
-        // Напишите тело самостоятельно
+        size_=0;
     }
-
     // Изменяет размер массива.
     // При увеличении размера новые элементы получают значение по умолчанию для типа Type
     void Resize(size_t new_size) {
-        // Напишите тело самостоятельно
+        if(new_size < capacity_){
+            capacity_=new_size;
+            if(size_ > new_size){
+                size_ = new_size;
+            }
+
+        }else{
+        ArrayPtr<Type> copy(items_);
+        this(new_size);
+        items_.swap(copy);
+        }
     }
 
     Iterator begin() noexcept {
