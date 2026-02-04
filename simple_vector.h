@@ -122,8 +122,97 @@ public:
     ConstIterator cend() const noexcept {
         return size_ == 0 ? nullptr : items_.Get()+size_;
     }
+
+    SimpleVector(const SimpleVector& other) {
+         // Напишите тело конструктора самостоятельно
+     }
+
+     SimpleVector& operator=(const SimpleVector& rhs) {
+         // Напишите тело конструктора самостоятельно
+         return *this;
+     }
+
+     // Добавляет элемент в конец вектора
+     // При нехватке места увеличивает вдвое вместимость вектора
+     void PushBack(const Type& item) {
+         if(size_ < capacity_){
+             items_[++size_]=item;
+         }else{
+             Resize(size_+1);
+             items_[size_-1]=item;
+         }
+     }
+
+     // Вставляет значение value в позицию pos.
+     // Возвращает итератор на вставленное значение
+     // Если перед вставкой значения вектор был заполнен полностью,
+     // вместимость вектора должна увеличиться вдвое, а для вектора вместимостью 0 стать равной 1
+     Iterator Insert(ConstIterator pos, const Type& value) {
+         if(size_ < capacity_){
+             *items_[*pos]=value;
+             return items_[*pos];
+         }else{
+             Resize(size_+1);
+             //items_[size_-1]=item;
+         }
+     }
+
+     void PopBack() noexcept {
+         if(size_ ==0){
+             return;
+         }
+         --size_;
+
+     }
+
+     // Удаляет элемент вектора в указанной позиции
+     Iterator Erase(ConstIterator pos) {
+         // Напишите тело самостоятельно
+     }
+
+     // Обменивает значение с другим вектором
+     void swap(SimpleVector& other) noexcept {
+         // Напишите тело самостоятельно
+     }
+
 private:
     ArrayPtr<Type> items_;
     size_t size_=0;
     size_t capacity_=0;
 };
+
+template <typename Type>
+inline bool operator==(const SimpleVector<Type>& lhs, const SimpleVector<Type>& rhs) {
+    // Заглушка. Напишите тело самостоятельно
+    return true;
+}
+
+template <typename Type>
+inline bool operator!=(const SimpleVector<Type>& lhs, const SimpleVector<Type>& rhs) {
+    // Заглушка. Напишите тело самостоятельно
+    return true;
+}
+
+template <typename Type>
+inline bool operator<(const SimpleVector<Type>& lhs, const SimpleVector<Type>& rhs) {
+    // Заглушка. Напишите тело самостоятельно
+    return true;
+}
+
+template <typename Type>
+inline bool operator<=(const SimpleVector<Type>& lhs, const SimpleVector<Type>& rhs) {
+    // Заглушка. Напишите тело самостоятельно
+    return true;
+}
+
+template <typename Type>
+inline bool operator>(const SimpleVector<Type>& lhs, const SimpleVector<Type>& rhs) {
+    // Заглушка. Напишите тело самостоятельно
+    return true;
+}
+
+template <typename Type>
+inline bool operator>=(const SimpleVector<Type>& lhs, const SimpleVector<Type>& rhs) {
+    // Заглушка. Напишите тело самостоятельно
+    return true;
+}
