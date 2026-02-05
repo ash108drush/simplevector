@@ -123,12 +123,16 @@ public:
         return size_ == 0 ? nullptr : items_.Get()+size_;
     }
 
-    SimpleVector(const SimpleVector& other) {
-         // Напишите тело конструктора самостоятельно
+    SimpleVector(const SimpleVector& other) {        
+        std::copy(other.begin(),other.end(),begin());
+        size_=other.size_;
+        capacity_=other.capacity_;
+
      }
 
      SimpleVector& operator=(const SimpleVector& rhs) {
-         // Напишите тело конструктора самостоятельно
+         SimpleVector s_copy(rhs);
+         swap(s_copy);
          return *this;
      }
 
@@ -148,12 +152,22 @@ public:
      // Если перед вставкой значения вектор был заполнен полностью,
      // вместимость вектора должна увеличиться вдвое, а для вектора вместимостью 0 стать равной 1
      Iterator Insert(ConstIterator pos, const Type& value) {
-         if(size_ < capacity_){
-             *items_[*pos]=value;
-             return items_[*pos];
-         }else{
-             Resize(size_+1);
-             //items_[size_-1]=item;
+         int n=0;
+         ArrayPtr<Type> new_items(size_+1);
+         for(auto i=begin(); i !=end(); ++i){
+             if(i==pos){
+                 new_items[n]=value;
+                 ++n;
+             }
+             new_items[n]=*i;
+             ++n;
+         }
+         items_.swap(new_items);
+         ++size_;
+         if(size_ > capacity_){
+
+             capacity_=capacity_*2;
+
          }
      }
 
@@ -167,12 +181,31 @@ public:
 
      // Удаляет элемент вектора в указанной позиции
      Iterator Erase(ConstIterator pos) {
-         // Напишите тело самостоятельно
+         ArrayPtr<Type> new_items(size_-1);
+         int n=0;
+         bool second_part=false;
+         for(auto i=begin(); i !=end(); ++i){
+             if(i==pos){
+                 second_part=true;
+                 continue;
+             }
+             if(!second_part){
+                 new_items[n]=*i;
+             }else{
+                 new_items[n]=*i ;
+             }
+             ++n;
+
+         }
+         items_.swap(new_items);
+         --size_;
      }
 
      // Обменивает значение с другим вектором
      void swap(SimpleVector& other) noexcept {
-         // Напишите тело самостоятельно
+         items_.swap(other.items_);
+         std::swap(size_,other.size_);
+         std::swap(capacity_,other.capacity_);
      }
 
 private:
